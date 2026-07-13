@@ -34,6 +34,8 @@ import com.axelixlabs.axelix.common.utils.SemanticVersion;
 
 /**
  * Contributes dependencies to maven project
+ *
+ * @author Artemiy Degtyarev
  */
 @Named("contributeDependenciesLifecycleExtension")
 @Singleton

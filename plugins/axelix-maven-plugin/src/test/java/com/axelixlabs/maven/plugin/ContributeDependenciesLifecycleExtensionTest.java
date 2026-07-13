@@ -73,6 +73,7 @@ class ContributeDependenciesLifecycleExtensionTest {
         verifier.verify(true);
 
         assertThat(readLogFile(baseDir)).contains("org.thymeleaf:thymeleaf:jar:3.1.5.RELEASE");
+        assertThat(readLogFile(baseDir)).doesNotContain("org.thymeleaf:thymeleaf:jar:3.0.15.RELEASE");
     }
 
     private static @NonNull String readLogFile(String baseDir) throws IOException {
