@@ -1,6 +1,7 @@
 plugins {
     id("org.gradlex.maven-plugin-development") version "1.0.3"
     id("maven-publish")
+    id("com.gradleup.shadow") version "9.5.1"
 }
 
 repositories {
@@ -8,10 +9,11 @@ repositories {
 }
 
 tasks.compileJava {
-    options.release = 8
+    options.release = 11
 }
 
 dependencies {
+    implementation(project(":common:utils"))
     implementation("org.apache.maven:maven-plugin-api:3.9.16")
     implementation("org.apache.maven:maven-core:3.9.16")
 
@@ -20,6 +22,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.apache.maven.shared:maven-verifier:1.8.0")
+    testImplementation("org.assertj:assertj-core:3.27.6")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
@@ -38,10 +41,22 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.shadowJar {
+    archiveClassifier = ""
+
+    dependencies {
+        exclude(dependency("org.apache.maven:maven-core:3.9.16"))
+    }
+}
+
+tasks.jar {
+    enabled = false
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenPlugin") {
-            from(components["java"])
+            from(components["shadow"])
         }
     }
 }
